@@ -9,9 +9,8 @@ const userTypeDef = `#graphql
 
     }
     type Query {
-        users: [User!]
-        authuser: User
-        user(userId:ID):User
+        authUser: User
+        user(userId:ID!):User
     }
 
     type Mutation {

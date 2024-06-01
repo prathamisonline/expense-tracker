@@ -26,7 +26,7 @@ const transactionSchema = new mongoose.Schema({
     },
     location: {
         type: String,
-        default: unknown,
+        default: "unknown",
     },
     date: {
         type: String,
@@ -34,6 +34,6 @@ const transactionSchema = new mongoose.Schema({
     },
 })
 
-const Trasaction = mongoose.model("Transaction", transactionSchema);
+const Transaction = mongoose.model("Transaction", transactionSchema);
 
 export default Transaction;
