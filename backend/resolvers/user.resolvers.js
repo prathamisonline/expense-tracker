@@ -7,7 +7,7 @@ const userResolver = {
         signUp: async (__, { input }, context) => {
             try {
                 const { username, name, gender, password } = input;
-                if (!username || !name || !gneder || !password) {
+                if (!username || !name || !gender || !password) {
                     throw new Error("All fields are required");
                 }
                 const existingUser = await User.findOne({ username });
@@ -16,8 +16,7 @@ const userResolver = {
                 }
 
                 const salt = await bcrypt.genSalt(10);
-                const hashedPassword = await bcrypt.hashedPassword(password, salt);
-
+                const hashedPassword = await bcrypt.hash(password, salt);
                 // https://avatar-placeholder.iran.liara.run/
                 const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
                 const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
@@ -25,13 +24,13 @@ const userResolver = {
                 const newUser = new User({
                     username,
                     name,
-                    password,
+                    password: hashedPassword,
                     gender,
-                    profilePicture: gender === "male" ? boyProfilePic : girlProfilePic
+                    profilePicture: gender === "male" ? boyProfilePic : girlProfilePic,
                 })
 
                 await newUser.save();
-                await context.log(newUser);
+                await context.login(newUser);
                 return newUser;
             } catch (err) {
                 console.error("Error in signUp: ", err);
@@ -64,7 +63,7 @@ const userResolver = {
                         throw new err;
                     }
                 })
-                context.res.clearCookie("Connect.sid");
+                context.res.clearCookie("connect.sid");
                 return { message: "Loggout out successsfully" }
             } catch (err) {
                 console.error("Error in logout:", err);
