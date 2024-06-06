@@ -41,8 +41,10 @@ const transactionsResolver = {
         },
         updateTransaction: async (__, { input }) => {
             try {
-                const updatedTransaction = await Transaction.findByIdAndUpdate(input.transaction, input, { new: true });
-
+                const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, { new: true });
+                if (!updatedTransaction) {
+                    throw new Error("Transaction not found or update failed");
+                }
                 return updatedTransaction;
 
             } catch (err) {
