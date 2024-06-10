@@ -10,15 +10,11 @@ const Cards = () => {
   const { data, loading } = useQuery(GET_TRANSACTIONS);
   const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
 
-  // const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
-  //   variables: {
-  //     userId: authUser?.authUser?._id,
-  //   },
-  // });
-
-  // console.log("userAndTransactions:", userAndTransactions);
-
-  console.log("cards:", data);
+  const { data: userAndTransactions } = useQuery(GET_USER_AND_TRANSACTIONS, {
+    variables: {
+      userId: authUser?.authUser?._id,
+    },
+  });
 
   // TODO => ADD RELATIONSHIPS
   return (

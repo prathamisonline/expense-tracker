@@ -90,7 +90,18 @@ const userResolver = {
                 throw new Error(err.message || "Error getting user");
             }
         }
-    }
+    },
+    User: {
+        transactions: async (parent) => {
+            try {
+                const transactions = await Transaction.find({ userId: parent._id });
+                return transactions;
+            } catch (err) {
+                console.log("Error in user.transactions resolver: ", err);
+                throw new Error(err.message || "Internal server error");
+            }
+        },
+    },
 }
 
 export default userResolver

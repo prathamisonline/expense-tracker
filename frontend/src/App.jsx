@@ -13,7 +13,6 @@ function App() {
   const authUser = true;
 
   const { loading, error, data } = useQuery(GET_AUTHENTICATED_USER);
-  console.log("get", loading, error, data);
 
   if (loading) return null;
   return (
